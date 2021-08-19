@@ -1,0 +1,15 @@
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingBaseSample.exe.config
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingBaseSample.exe
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingBaseSample.pdb
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingSolution.Control.GraphicsBox.dll
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingSolution.Imaging.ImageData.dll
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingSolution.Control.GraphicsBox.xml
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\bin\Debug\ImagingSolution.Imaging.ImageData.xml
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.csprojAssemblyReference.cache
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.MainForm.resources
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.Properties.Resources.resources
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.csproj.GenerateResource.cache
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.csproj.CoreCompileInputs.cache
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.csproj.CopyComplete
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.exe
+E:\C#_project\ImagingBaseSample\ImagingBaseSample\obj\Debug\ImagingBaseSample.pdb
