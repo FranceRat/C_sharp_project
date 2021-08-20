@@ -79,3 +79,18 @@ OpenCvSharpと検索し、画像中のパッケージを選択する
 **拡張機能関係**
 - https://rerrahkr.hatenablog.com/entry/2017/10/05/184548
 - https://www.pine4.net/Memo2/Article/Archive/how-to-clone-github-repository-with-github-extension-for-visual-studio
+
+# 8/20追加
+## 変更内容
+ 画像変換処理変換用のUIの追加とResize処理の実行  
+## 追加したUI
+ ![image](https://user-images.githubusercontent.com/84693808/130211648-7eb0f08a-e81b-4812-a6ce-f3e83c952d19.png)  
+
+ - ComboBox
+ - Label
+ - TextBox(初期非表示) 
+## Resizeでの仕様
+ComboBoxのイベントを使用する.
+- DropDown:コンボボックスが開かれた際に起こすイベント。本アプリでは現在選ばれている要素と紐づいているコントロールを非表示にする(Controls.Remove(T);)
+- DropDownClosed:コンボボックスが閉じられた際に起こすイベント。選ばれた要素に応じて紐づいているコントロールを表示する.(Controls.Add(T);)  
+Resizeにて表示されたtextboxに数値を入力することでそのサイズに合わせた画像を表示させる.
