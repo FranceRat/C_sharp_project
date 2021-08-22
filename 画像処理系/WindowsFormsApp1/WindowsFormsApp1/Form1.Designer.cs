@@ -21,13 +21,15 @@
         }
 
         #region Windows フォーム デザイナーで生成されたコード
-
+        
         /// <summary>
         /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
         /// コード エディターで変更しないでください。
         /// </summary>
         private void InitializeComponent()
         {
+            this.paintingupdatetimer = new System.Windows.Forms.Timer();
+            paintingupdatetimer.Enabled = false;
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenImgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,6 +42,21 @@
             this.resize_width = new System.Windows.Forms.TextBox();
             this.resize_height_label = new System.Windows.Forms.Label();
             this.resize_width_label = new System.Windows.Forms.Label();
+            this.CropStartPoints_y = new System.Windows.Forms.TextBox();
+            this.CropStartPoints_x = new System.Windows.Forms.TextBox();
+            this.CropEndPomints_x = new System.Windows.Forms.TextBox();
+            this.CropEndPoints_y = new System.Windows.Forms.TextBox();
+            this.CropResize_w = new System.Windows.Forms.TextBox();
+            this.CropResize_h = new System.Windows.Forms.TextBox();
+            this.Cropstart_label = new System.Windows.Forms.Label();
+            this.Cropend_label = new System.Windows.Forms.Label();
+            this.Crop_resize_label = new System.Windows.Forms.Label();
+            this.CropStartPoints_x_label = new System.Windows.Forms.Label();
+            this.CropStartPoints_y_label = new System.Windows.Forms.Label();
+            this.CropEndPoints_y_label = new System.Windows.Forms.Label();
+            this.CropEndPoints_x_label = new System.Windows.Forms.Label();
+            this.CropResize_h_label = new System.Windows.Forms.Label();
+            this.CropResize_w_label = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -75,22 +92,27 @@
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
             this.SaveToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.SaveToolStripMenuItem.Text = "新しく保存";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Location = new System.Drawing.Point(0, 27);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(570, 578);
+            this.pictureBox2.Size = new System.Drawing.Size(570, 450);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Resize",
-            "XXX"});
+            "Crop"});
             this.comboBox1.Location = new System.Drawing.Point(604, 69);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(214, 20);
@@ -100,6 +122,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(602, 45);
             this.label1.Name = "label1";
@@ -109,6 +132,7 @@
             // 
             // excutetion_button
             // 
+            this.excutetion_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.excutetion_button.Location = new System.Drawing.Point(604, 425);
             this.excutetion_button.Name = "excutetion_button";
             this.excutetion_button.Size = new System.Drawing.Size(214, 23);
@@ -138,7 +162,7 @@
             this.resize_height_label.Name = "resize_height_label";
             this.resize_height_label.Size = new System.Drawing.Size(17, 12);
             this.resize_height_label.TabIndex = 7;
-            this.resize_height_label.Text = "高さ";
+            this.resize_height_label.Text = "幅";
             // 
             // resize_width_label
             // 
@@ -147,11 +171,164 @@
             this.resize_width_label.Name = "resize_width_label";
             this.resize_width_label.Size = new System.Drawing.Size(27, 12);
             this.resize_width_label.TabIndex = 8;
-            this.resize_width_label.Text = "x 幅";
+            this.resize_width_label.Text = "x 高さ";
+            // 
+            // CropStartPoints_y
+            // 
+            this.CropStartPoints_y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropStartPoints_y.Location = new System.Drawing.Point(754, 134);
+            this.CropStartPoints_y.Name = "CropStartPoints_y";
+            this.CropStartPoints_y.Size = new System.Drawing.Size(63, 19);
+            this.CropStartPoints_y.TabIndex = 5;
+            // 
+            // CropStartPoints_x
+            // 
+            this.CropStartPoints_x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropStartPoints_x.Location = new System.Drawing.Point(636, 134);
+            this.CropStartPoints_x.Name = "CropStartPoints_x";
+            this.CropStartPoints_x.Size = new System.Drawing.Size(63, 19);
+            this.CropStartPoints_x.TabIndex = 6;
+            // 
+            // CropEndPomints_x
+            // 
+            this.CropEndPomints_x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropEndPomints_x.Location = new System.Drawing.Point(637, 210);
+            this.CropEndPomints_x.Name = "CropEndPomints_x";
+            this.CropEndPomints_x.Size = new System.Drawing.Size(63, 19);
+            this.CropEndPomints_x.TabIndex = 8;
+            // 
+            // CropEndPoints_y
+            // 
+            this.CropEndPoints_y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropEndPoints_y.Location = new System.Drawing.Point(755, 210);
+            this.CropEndPoints_y.Name = "CropEndPoints_y";
+            this.CropEndPoints_y.Size = new System.Drawing.Size(63, 19);
+            this.CropEndPoints_y.TabIndex = 7;
+            // 
+            // CropResize_w
+            // 
+            this.CropResize_w.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropResize_w.Location = new System.Drawing.Point(637, 288);
+            this.CropResize_w.Name = "CropResize_w";
+            this.CropResize_w.Size = new System.Drawing.Size(63, 19);
+            this.CropResize_w.TabIndex = 10;
+            // 
+            // CropResize_h
+            // 
+            this.CropResize_h.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropResize_h.Location = new System.Drawing.Point(755, 288);
+            this.CropResize_h.Name = "CropResize_h";
+            this.CropResize_h.Size = new System.Drawing.Size(63, 19);
+            this.CropResize_h.TabIndex = 9;
+            // 
+            // Cropstart_label
+            // 
+            this.Cropstart_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Cropstart_label.AutoSize = true;
+            this.Cropstart_label.Location = new System.Drawing.Point(604, 108);
+            this.Cropstart_label.Name = "Cropstart_label";
+            this.Cropstart_label.Size = new System.Drawing.Size(139, 12);
+            this.Cropstart_label.TabIndex = 11;
+            this.Cropstart_label.Text = "切り取り開始点（左上の点）";
+            // 
+            // Cropend_label
+            // 
+            this.Cropend_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Cropend_label.AutoSize = true;
+            this.Cropend_label.Location = new System.Drawing.Point(604, 186);
+            this.Cropend_label.Name = "Cropend_label";
+            this.Cropend_label.Size = new System.Drawing.Size(139, 12);
+            this.Cropend_label.TabIndex = 12;
+            this.Cropend_label.Text = "切り取り終了点（右下の点）";
+            // 
+            // Crop_resize_label
+            // 
+            this.Crop_resize_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Crop_resize_label.AutoSize = true;
+            this.Crop_resize_label.Location = new System.Drawing.Point(602, 261);
+            this.Crop_resize_label.Name = "Crop_resize_label";
+            this.Crop_resize_label.Size = new System.Drawing.Size(80, 12);
+            this.Crop_resize_label.TabIndex = 13;
+            this.Crop_resize_label.Text = "Crop後のサイズ";
+            // 
+            // CropStartPoints_x_label
+            // 
+            this.CropStartPoints_x_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropStartPoints_x_label.AutoSize = true;
+            this.CropStartPoints_x_label.Location = new System.Drawing.Point(604, 137);
+            this.CropStartPoints_x_label.Name = "CropStartPoints_x_label";
+            this.CropStartPoints_x_label.Size = new System.Drawing.Size(17, 12);
+            this.CropStartPoints_x_label.TabIndex = 14;
+            this.CropStartPoints_x_label.Text = "x1";
+            // 
+            // CropStartPoints_y_label
+            // 
+            this.CropStartPoints_y_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropStartPoints_y_label.AutoSize = true;
+            this.CropStartPoints_y_label.Location = new System.Drawing.Point(726, 137);
+            this.CropStartPoints_y_label.Name = "CropStartPoints_y_label";
+            this.CropStartPoints_y_label.Size = new System.Drawing.Size(17, 12);
+            this.CropStartPoints_y_label.TabIndex = 15;
+            this.CropStartPoints_y_label.Text = "y1";
+            // 
+            // CropEndPoints_y_label
+            // 
+            this.CropEndPoints_y_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropEndPoints_y_label.AutoSize = true;
+            this.CropEndPoints_y_label.Location = new System.Drawing.Point(726, 217);
+            this.CropEndPoints_y_label.Name = "CropEndPoints_y_label";
+            this.CropEndPoints_y_label.Size = new System.Drawing.Size(17, 12);
+            this.CropEndPoints_y_label.TabIndex = 17;
+            this.CropEndPoints_y_label.Text = "y2";
+            // 
+            // CropEndPoints_x_label
+            // 
+            this.CropEndPoints_x_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropEndPoints_x_label.AutoSize = true;
+            this.CropEndPoints_x_label.Location = new System.Drawing.Point(604, 217);
+            this.CropEndPoints_x_label.Name = "CropEndPoints_x_label";
+            this.CropEndPoints_x_label.Size = new System.Drawing.Size(17, 12);
+            this.CropEndPoints_x_label.TabIndex = 16;
+            this.CropEndPoints_x_label.Text = "x2";
+            // 
+            // CropResize_h_label
+            // 
+            this.CropResize_h_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropResize_h_label.AutoSize = true;
+            this.CropResize_h_label.Location = new System.Drawing.Point(726, 295);
+            this.CropResize_h_label.Name = "CropResize_h_label";
+            this.CropResize_h_label.Size = new System.Drawing.Size(11, 12);
+            this.CropResize_h_label.TabIndex = 19;
+            this.CropResize_h_label.Text = "h";
+            // 
+            // CropResize_w_label
+            // 
+            this.CropResize_w_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CropResize_w_label.AutoSize = true;
+            this.CropResize_w_label.Location = new System.Drawing.Point(604, 295);
+            this.CropResize_w_label.Name = "CropResize_w_label";
+            this.CropResize_w_label.Size = new System.Drawing.Size(13, 12);
+            this.CropResize_w_label.TabIndex = 18;
+            this.CropResize_w_label.Text = "w";
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(874, 606);
+            this.ClientSize = new System.Drawing.Size(874, 477);
+            this.Controls.Add(this.CropResize_h_label);
+            this.Controls.Add(this.CropResize_w_label);
+            this.Controls.Add(this.CropEndPoints_y_label);
+            this.Controls.Add(this.CropEndPoints_x_label);
+            this.Controls.Add(this.CropStartPoints_y_label);
+            this.Controls.Add(this.CropStartPoints_x_label);
+            this.Controls.Add(this.Crop_resize_label);
+            this.Controls.Add(this.Cropend_label);
+            this.Controls.Add(this.Cropstart_label);
+            this.Controls.Add(this.CropResize_w);
+            this.Controls.Add(this.CropResize_h);
+            this.Controls.Add(this.CropEndPomints_x);
+            this.Controls.Add(this.CropEndPoints_y);
+            this.Controls.Add(this.CropStartPoints_x);
+            this.Controls.Add(this.CropStartPoints_y);
             this.Controls.Add(this.excutetion_button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
@@ -168,7 +345,7 @@
         }
 
         #endregion
-
+        private System.Windows.Forms.Timer paintingupdatetimer;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -185,6 +362,21 @@
         private System.Windows.Forms.TextBox resize_width;
         private System.Windows.Forms.Label resize_height_label;
         private System.Windows.Forms.Label resize_width_label;
+        private System.Windows.Forms.TextBox CropStartPoints_y;
+        private System.Windows.Forms.TextBox CropStartPoints_x;
+        private System.Windows.Forms.TextBox CropEndPomints_x;
+        private System.Windows.Forms.TextBox CropEndPoints_y;
+        private System.Windows.Forms.TextBox CropResize_w;
+        private System.Windows.Forms.TextBox CropResize_h;
+        private System.Windows.Forms.Label Cropstart_label;
+        private System.Windows.Forms.Label Cropend_label;
+        private System.Windows.Forms.Label Crop_resize_label;
+        private System.Windows.Forms.Label CropStartPoints_x_label;
+        private System.Windows.Forms.Label CropStartPoints_y_label;
+        private System.Windows.Forms.Label CropEndPoints_y_label;
+        private System.Windows.Forms.Label CropEndPoints_x_label;
+        private System.Windows.Forms.Label CropResize_h_label;
+        private System.Windows.Forms.Label CropResize_w_label;
     }
 }
 

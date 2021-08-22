@@ -1,4 +1,4 @@
-# OpenCVによる画像表示アプリケーション
+﻿# OpenCVによる画像表示アプリケーション
 ## UI
 ![image](https://user-images.githubusercontent.com/84693808/130054599-5e082039-6f98-4f63-8212-bed60bc75085.png)
 
@@ -94,3 +94,12 @@ ComboBoxのイベントを使用する.
 - DropDown:コンボボックスが開かれた際に起こすイベント。本アプリでは現在選ばれている要素と紐づいているコントロールを非表示にする(Controls.Remove(T);)
 - DropDownClosed:コンボボックスが閉じられた際に起こすイベント。選ばれた要素に応じて紐づいているコントロールを表示する.(Controls.Add(T);)  
 Resizeにて表示されたtextboxに数値を入力することでそのサイズに合わせた画像を表示させる.
+
+# 8/22追加
+## 変更内容
+Crop用のUIの設置とpicturebox中のマウス処理に関するイベントの作成
+## 追加したUI
+
+
+ - Label
+ - TextBox(初期非表示)

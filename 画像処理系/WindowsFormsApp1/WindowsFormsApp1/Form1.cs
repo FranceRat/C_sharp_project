@@ -19,16 +19,24 @@ namespace WindowsFormsApp1
     {
         Image image;
         Mat cv_img;
+        Mat dst_img;
+        bool drug = false;
+        int b_x1=0;
+        int b_x2=0;
+        int b_y1=0;
+        int b_y2=0;
         Dictionary<string, List<System.Windows.Forms.Control>> rem_add_Controls;
         public Form1()
         {
+            this.Load += new EventHandler(Form1_Load);
             InitializeComponent();
+            paintingupdatetimer.Interval = 1000 / 60;
             rem_add_Controls = new Dictionary<string, List<Control>>() {
                 {"Resize",new List<Control>(){resize_width_label,resize_height_label,resize_height,resize_width} }
             };
         }
         /// <summary>
-        /// 
+        /// 画像ファイルを開く際に使用する
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -70,6 +78,14 @@ namespace WindowsFormsApp1
             {
                 Controls.Remove(T);
             }
+            switch (selected)
+            {
+                case "Crop":
+                    this.pictureBox2.MouseDown -= new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
+                    this.pictureBox2.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
+                    this.pictureBox2.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
+                    break;
+            }
         }
         /// <summary>
         /// コンボボックスが開かれた際に
@@ -85,37 +101,142 @@ namespace WindowsFormsApp1
             {
                 Controls.Add(T);
             }
+            switch(selected){
+                case "Crop":
+                    this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
+                    this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
+                    this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
+                    break;
+            }
         }
-
+        /// <summary>
+        /// 処理画像を初期化し、処理画像表示ウィンドウはすべて閉じる
+        /// </summary>
+        private void init_img()
+        {
+            dst_img = new Mat();
+            Cv2.DestroyAllWindows();
+        }
+        /// <summary>
+        /// 選択した処理の実行ボタン押下時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void excutetion_button_Click(object sender, EventArgs e)
         {
             string selected = (string)comboBox1.SelectedItem;
+            init_img();
             switch (selected)
             {
                 case "Resize":
-                    int w;
                     int h;
+                    int w;
                     if (image == null)
                     {
                         MessageBox.Show("ファイルから画像開いといてくれ頼むわ", "画像開かれとらんよ", MessageBoxButtons.OK);
                         return;
                     } 
-                    if(!Int32.TryParse(resize_width.Text,out w))
+                    if(!Int32.TryParse(resize_width.Text,out h))
                     {
                         MessageBox.Show("ハイ雑魚！！！！お前は整数が打てないのか？\n小学生からやり直せ!!!!", "サイズ変更で整数以外はダメよ", MessageBoxButtons.OK);
                         return;
                     }
-                    if (!Int32.TryParse(resize_height.Text, out h))
+                    if (!Int32.TryParse(resize_height.Text, out w))
                     {
                         MessageBox.Show("ハイ雑魚！！！！お前は整数が打てないのか？\n小学生からやり直せ!!!!", "サイズ変更で整数以外はダメよ", MessageBoxButtons.OK);
                         return;
                     }
-                    OpenCvSharp.Size resize_size = new OpenCvSharp.Size(w, h);
-                    Mat dst = new Mat();
-                    Cv2.Resize(cv_img, dst, resize_size);
-                    Cv2.ImShow(selected, dst);
+                    OpenCvSharp.Size resize_size = new OpenCvSharp.Size(h, w);
+                    Cv2.Resize(cv_img, dst_img, resize_size);
+                    Cv2.ImShow(selected, dst_img);
                     break;
             }
         }
+        /// <summary>
+        /// 画像保存時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cv_img == null) return;
+            var sfd = new SaveFileDialog();
+            sfd.RestoreDirectory = true;
+            sfd.Filter= "JPeg Image|*.jpg|Bitmap Image|*.bmp|Png Image|*.png";
+            sfd.FilterIndex = 2;
+            sfd.Title = "処理した画像どこにやる?";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (dst_img == null)
+                {
+                    Cv2.ImWrite(sfd.FileName,cv_img);
+                }
+                else
+                {
+                    Cv2.ImWrite(sfd.FileName, dst_img);
+                }
+                
+            }
+            
+        }
+        /// <summary>
+        /// pictureBox内でマウスがクリックされた際の処理
+        /// クリックした後はdrugがTrueになる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrawBox_start(object sender, MouseEventArgs e)
+        {
+            b_x1 = e.X;
+            b_y1 = e.Y;
+            drug = true;
+        }
+        /// <summary>
+        /// Formのサイズを固定する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // MaximumSizeとMinimumSizeを同じにすることでサイズ固定にする
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
+            // 最大化・最小化の無効
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+        }
+        /// <summary>
+        /// クリックを離すとその地点の座標を保管して
+        /// drugをFalseにする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrawBoxEnd(object sender, MouseEventArgs e)
+        {
+            b_x2 = e.X;
+            b_y2 = e.Y;
+            drug = false;
+        }
+        /// <summary>
+        /// drugがTrueの時のみマウスを動かしていると
+        /// ボックスの終点を更新する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (drug)
+            {
+                b_x2 = e.X;
+                b_y2 = e.Y;
+            }
+        }
+
     }
 }
+///TODO
+///1.Timerイベントの追加
+///2.画像上に四角形を描画する関数作成
+///3.Timerイベントに２とpictureboxをRefreshする処理を追加する
+///4.UIの非表示処理
+///5.Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)
