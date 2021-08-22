@@ -97,9 +97,25 @@ Resizeにて表示されたtextboxに数値を入力することでそのサイ�
 
 # 8/22追加
 ## 変更内容
-Crop用のUIの設置とpicturebox中のマウス処理に関するイベントの作成
+ Crop用のUIの設置とpicturebox中のマウス処理に関するイベントの作成
 ## 追加したUI
 
+![スクリーンショット (52)](https://user-images.githubusercontent.com/84693808/130351398-750d0b2e-a28d-4056-ac55-049e0442d744.png)
 
  - Label
  - TextBox(初期非表示)
+
+## 追加したイベント
+ - picturebox内でのマウスクリック時にその始点を記録する(DrawBox_start)
+ - クリックが押されている間、マウスのいる点で終点として逐次更新する(pictureBox2_MouseMove)
+ - クリックから離した際にに最終的な終点として記録する(DrawBoxEnd)  
+ これら3つがCropモードになった際にイベントして追加され、そのモードから外れればイベントから外す
+
+## TODO
+1. Timerイベントの追加
+2. 画像上に四角形を描画する関数作成
+3. Timerイベントに２とpictureboxをRefreshする処理を追加する
+4. UIの非表示処理
+5. Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)
+
+ 
