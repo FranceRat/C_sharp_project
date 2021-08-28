@@ -21,19 +21,35 @@ namespace WindowsFormsApp1
         Mat cv_img;
         Mat dst_img;
         bool drug = false;
-        int b_x1=0;
-        int b_x2=0;
-        int b_y1=0;
-        int b_y2=0;
+        int[] b_x= { 0,0};
+        int[] b_y= { 0,0};
         Dictionary<string, List<System.Windows.Forms.Control>> rem_add_Controls;
+        Mat disp_img;
+
         public Form1()
         {
             this.Load += new EventHandler(Form1_Load);
             InitializeComponent();
-            paintingupdatetimer.Interval = 1000 / 60;
+            //paintingupdatetimer.Interval = 1000 / 60;
+            ///
             rem_add_Controls = new Dictionary<string, List<Control>>() {
-                {"Resize",new List<Control>(){resize_width_label,resize_height_label,resize_height,resize_width} }
-            };
+                {"Resize",new List<Control>(){resize_width_label,resize_height_label,resize_height,resize_width}},{"Crop",new List<Control>(){
+                        CropResize_h_label,
+                        CropResize_w_label,
+                        CropEndPoints_y_label,
+                        CropEndPoints_x_label,
+                        CropStartPoints_y_label,
+                        CropStartPoints_x_label,
+                        Crop_resize_label,
+                        Cropend_label,
+                        Cropstart_label,
+                        CropResize_w,
+                        CropResize_h,
+                        CropEndPomints_x,
+                        CropEndPoints_y,
+                        CropStartPoints_x,
+                        CropStartPoints_y
+                    }} };
         }
         /// <summary>
         /// 画像ファイルを開く際に使用する
@@ -56,12 +72,11 @@ namespace WindowsFormsApp1
             if (image != null) image.Dispose();
             //画像パスからファイル読み込み
             cv_img = new Mat(ofd.FileName);
-            Mat disp_img = new Mat();
+            disp_img = new Mat();
             OpenCvSharp.Size disp_size = new OpenCvSharp.Size(pictureBox2.Width, pictureBox2.Height);
             Cv2.Resize(cv_img, disp_img, disp_size);
             image = BitmapConverter.ToBitmap(disp_img);
             pictureBox2.Image = image;
-
 
         }
         /// <summary>
@@ -87,8 +102,9 @@ namespace WindowsFormsApp1
                     break;
             }
         }
+
         /// <summary>
-        /// コンボボックスが開かれた際に
+        /// コンボボックスが閉じられた際に
         /// 選択したテキストに対応したコントロールを作成する(追加する)
         /// </summary>
         /// <param name="sender"></param>
@@ -101,14 +117,17 @@ namespace WindowsFormsApp1
             {
                 Controls.Add(T);
             }
-            switch(selected){
+            //Console.WriteLine("ASDFGHJKL+");
+            switch (selected){
                 case "Crop":
                     this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
                     this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
                     this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
+                    //this.paintingupdatetimer.Tick += new EventHandler(this.Timer_event);
                     break;
             }
         }
+
         /// <summary>
         /// 処理画像を初期化し、処理画像表示ウィンドウはすべて閉じる
         /// </summary>
@@ -117,6 +136,7 @@ namespace WindowsFormsApp1
             dst_img = new Mat();
             Cv2.DestroyAllWindows();
         }
+
         /// <summary>
         /// 選択した処理の実行ボタン押下時の処理
         /// </summary>
@@ -179,6 +199,7 @@ namespace WindowsFormsApp1
             }
             
         }
+
         /// <summary>
         /// pictureBox内でマウスがクリックされた際の処理
         /// クリックした後はdrugがTrueになる
@@ -187,9 +208,15 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void DrawBox_start(object sender, MouseEventArgs e)
         {
-            b_x1 = e.X;
-            b_y1 = e.Y;
+            //Console.WriteLine("AAAAAAAAA");
+            CropStartPoints_x.Text = e.X.ToString();
+            CropStartPoints_y.Text = e.Y.ToString();
+            b_x[0] = e.X;
+            b_y[0] = e.Y;
+            b_x[1] = e.X;
+            b_y[1] = e.Y;
             drug = true;
+            Painting_Rect();
         }
         /// <summary>
         /// Formのサイズを固定する
@@ -205,6 +232,7 @@ namespace WindowsFormsApp1
             this.MaximizeBox = false;
             this.MinimizeBox = false;
         }
+
         /// <summary>
         /// クリックを離すとその地点の座標を保管して
         /// drugをFalseにする
@@ -213,10 +241,16 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void DrawBoxEnd(object sender, MouseEventArgs e)
         {
-            b_x2 = e.X;
-            b_y2 = e.Y;
+            //Console.WriteLine("CCCCCCCCCCCCCCCCCCCCCC");
+            b_x[1] = e.X;
+            b_y[1] = e.Y;
+            //float resize_h_ratio = ((float)cv_img.Height / pictureBox2.Height);
+            CropResize_h.Text = ((int)((b_y.Max() - b_y.Min()) * ((float)cv_img.Height / pictureBox2.Height))).ToString();
+            CropResize_w.Text = ((int)((b_y.Max() - b_y.Min()) * ((float)cv_img.Width / pictureBox2.Width))).ToString();
+
             drug = false;
         }
+
         /// <summary>
         /// drugがTrueの時のみマウスを動かしていると
         /// ボックスの終点を更新する
@@ -225,18 +259,34 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void pictureBox2_MouseMove(object sender, MouseEventArgs e)
         {
+            
             if (drug)
             {
-                b_x2 = e.X;
-                b_y2 = e.Y;
+                //Console.WriteLine("BBBBBBB");
+                CropEndPomints_x.Text = e.X.ToString();
+                CropEndPoints_y.Text = e.Y.ToString();
+                b_x[1] = e.X;
+                b_y[1] = e.Y;
+                Painting_Rect();
             }
         }
-
+        private void Painting_Rect()
+        {
+            if (disp_img == null) return;
+            Rect Crop_rect = new Rect(b_x.Min(),b_y.Min(),(b_x.Max()-b_x.Min()), (b_y.Max() - b_y.Min()));
+            Mat Rect_img = disp_img.Clone();
+            Cv2.Rectangle(Rect_img, Crop_rect, Scalar.Red);
+            pictureBox2.Image = BitmapConverter.ToBitmap(Rect_img);
+        }
     }
 }
 ///TODO
+///5_0.text入力からCrop領域表示の更新
+///5_1.Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)
+///
+
+///DiD
 ///1.Timerイベントの追加
 ///2.画像上に四角形を描画する関数作成
 ///3.Timerイベントに２とpictureboxをRefreshする処理を追加する
 ///4.UIの非表示処理
-///5.Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)

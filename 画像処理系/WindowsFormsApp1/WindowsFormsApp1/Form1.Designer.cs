@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.paintingupdatetimer = new System.Windows.Forms.Timer();
-            paintingupdatetimer.Enabled = false;
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenImgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +102,7 @@
             this.pictureBox2.Size = new System.Drawing.Size(570, 450);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
+            //this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
             // 
             // comboBox1
             // 
@@ -210,6 +209,7 @@
             this.CropResize_w.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CropResize_w.Location = new System.Drawing.Point(637, 288);
             this.CropResize_w.Name = "CropResize_w";
+            this.CropResize_w.ReadOnly = true;
             this.CropResize_w.Size = new System.Drawing.Size(63, 19);
             this.CropResize_w.TabIndex = 10;
             // 
@@ -217,6 +217,7 @@
             // 
             this.CropResize_h.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CropResize_h.Location = new System.Drawing.Point(755, 288);
+            this.CropResize_h.ReadOnly = true;
             this.CropResize_h.Name = "CropResize_h";
             this.CropResize_h.Size = new System.Drawing.Size(63, 19);
             this.CropResize_h.TabIndex = 9;
@@ -314,21 +315,7 @@
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(874, 477);
-            this.Controls.Add(this.CropResize_h_label);
-            this.Controls.Add(this.CropResize_w_label);
-            this.Controls.Add(this.CropEndPoints_y_label);
-            this.Controls.Add(this.CropEndPoints_x_label);
-            this.Controls.Add(this.CropStartPoints_y_label);
-            this.Controls.Add(this.CropStartPoints_x_label);
-            this.Controls.Add(this.Crop_resize_label);
-            this.Controls.Add(this.Cropend_label);
-            this.Controls.Add(this.Cropstart_label);
-            this.Controls.Add(this.CropResize_w);
-            this.Controls.Add(this.CropResize_h);
-            this.Controls.Add(this.CropEndPomints_x);
-            this.Controls.Add(this.CropEndPoints_y);
-            this.Controls.Add(this.CropStartPoints_x);
-            this.Controls.Add(this.CropStartPoints_y);
+
             this.Controls.Add(this.excutetion_button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
