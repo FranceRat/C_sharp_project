@@ -402,8 +402,7 @@ namespace WindowsFormsApp1
     }
 }
 ///TODO
-///5_0.text入力からCrop領域表示の更新
-///5_1.Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)
+
 ///
 
 ///DiD
@@ -411,3 +410,5 @@ namespace WindowsFormsApp1
 ///2.画像上に四角形を描画する関数作成
 ///3.Timerイベントに２とpictureboxをRefreshする処理を追加する
 ///4.UIの非表示処理
+///5_0.text入力からCrop領域表示の更新
+///5_1.Crop処理を追加した(b_x1,b_x2,b_y1,b_y2からpictureboxの画像サイズと本物画像のサイズの比率を考慮してクリッピングを実行)
