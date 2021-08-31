@@ -21,7 +21,7 @@ namespace WindowsFormsApp1
         Mat cv_img;
         Mat dst_img;
         bool drug = false;
-        int[] b_x= { 0,0};
+        int[] b_x = { 0, 0 };
         int[] b_y= { 0,0};
         Dictionary<string, List<System.Windows.Forms.Control>> rem_add_Controls;
         Mat disp_img;
@@ -146,16 +146,16 @@ namespace WindowsFormsApp1
         {
             string selected = (string)comboBox1.SelectedItem;
             init_img();
+            if (image == null)
+            {
+                MessageBox.Show("ファイルから画像開いといてくれ頼むわ", "画像開かれとらんよ", MessageBoxButtons.OK);
+                return;
+            }
             switch (selected)
             {
                 case "Resize":
                     int h;
                     int w;
-                    if (image == null)
-                    {
-                        MessageBox.Show("ファイルから画像開いといてくれ頼むわ", "画像開かれとらんよ", MessageBoxButtons.OK);
-                        return;
-                    } 
                     if(!Int32.TryParse(resize_width.Text,out h))
                     {
                         MessageBox.Show("ハイ雑魚！！！！お前は整数が打てないのか？\n小学生からやり直せ!!!!", "サイズ変更で整数以外はダメよ", MessageBoxButtons.OK);
@@ -170,6 +170,38 @@ namespace WindowsFormsApp1
                     Cv2.Resize(cv_img, dst_img, resize_size);
                     Cv2.ImShow(selected, dst_img);
                     break;
+                case "Crop":
+                    Console.WriteLine(cv_img.Size());
+                    Console.WriteLine(picBox2Pic_pos(b_x.Min()));
+                    Console.WriteLine(picBox2Pic_pos(b_y.Min(),"y"));
+                    Console.WriteLine(picBox2Pic_pos(b_y.Max() - b_y.Min(),"y"));
+                    Console.WriteLine(b_x.Max() - b_x.Min());
+
+
+
+                    dst_img = new Mat(cv_img,new Rect(picBox2Pic_pos(b_x.Min())
+                        , picBox2Pic_pos(b_y.Min(),"y")
+                        , picBox2Pic_pos((b_x.Max() - b_x.Min()))
+                        , picBox2Pic_pos((b_y.Max() - b_y.Min()), "y")));
+                    Cv2.ImShow(selected, dst_img);
+                    break;
+
+            }
+        }
+        /// <summary>
+        /// pictureBoxの座標から画像座標への変換
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        int picBox2Pic_pos(int picBox_pos,string axis="x")
+        {
+            if (axis == "x")
+            {
+                return ((int)((picBox_pos) * ((float)cv_img.Width / pictureBox2.Width)));
+            }
+            else
+            {
+                return ((int)((picBox_pos) * ((float)cv_img.Height / pictureBox2.Height)));
             }
         }
         /// <summary>
@@ -242,11 +274,14 @@ namespace WindowsFormsApp1
         private void DrawBoxEnd(object sender, MouseEventArgs e)
         {
             //Console.WriteLine("CCCCCCCCCCCCCCCCCCCCCC");
-            b_x[1] = e.X;
-            b_y[1] = e.Y;
+            b_x[1] = Math.Max(Math.Min(e.X, pictureBox2.Width), 0);
+            b_y[1] = Math.Max(Math.Min(e.Y, pictureBox2.Height), 0);
             //float resize_h_ratio = ((float)cv_img.Height / pictureBox2.Height);
-            CropResize_h.Text = ((int)((b_y.Max() - b_y.Min()) * ((float)cv_img.Height / pictureBox2.Height))).ToString();
-            CropResize_w.Text = ((int)((b_y.Max() - b_y.Min()) * ((float)cv_img.Width / pictureBox2.Width))).ToString();
+            int h = picBox2Pic_pos(b_y.Max() - b_y.Min(), "y");
+            int w = picBox2Pic_pos(b_x.Max() - b_x.Min());
+
+            CropResize_h.Text = picBox2Pic_pos(b_y.Max() - b_y.Min(),"y").ToString();
+            CropResize_w.Text = picBox2Pic_pos(b_x.Max() - b_x.Min()).ToString();
 
             drug = false;
         }
@@ -263,13 +298,16 @@ namespace WindowsFormsApp1
             if (drug)
             {
                 //Console.WriteLine("BBBBBBB");
-                CropEndPomints_x.Text = e.X.ToString();
-                CropEndPoints_y.Text = e.Y.ToString();
-                b_x[1] = e.X;
-                b_y[1] = e.Y;
+                b_x[1] = Math.Max(Math.Min(e.X,pictureBox2.Width),0);
+                b_y[1] = Math.Max(Math.Min(e.Y, pictureBox2.Height), 0);
+                CropEndPomints_x.Text = b_x[1].ToString();
+                CropEndPoints_y.Text = b_y[1].ToString();
                 Painting_Rect();
             }
         }
+        /// <summary>
+        /// 四角形を描く処理
+        /// </summary>
         private void Painting_Rect()
         {
             if (disp_img == null) return;
@@ -277,6 +315,89 @@ namespace WindowsFormsApp1
             Mat Rect_img = disp_img.Clone();
             Cv2.Rectangle(Rect_img, Crop_rect, Scalar.Red);
             pictureBox2.Image = BitmapConverter.ToBitmap(Rect_img);
+        }
+
+        /// <summary>
+        /// CropEndPomints_xのテキスト処理が変更された際のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CropEndPomints_x_TextChanged(object sender, EventArgs e)
+        {
+            if (drug == true) return;
+            int o;
+            if(int.TryParse(CropEndPomints_x.Text,out o))
+            {
+                b_x[1] = Math.Max(Math.Min(o, pictureBox2.Width), 0);
+                CropEndPomints_x.Text = b_x[1].ToString();
+            }
+            else
+            {
+                CropEndPomints_x.Text = b_x[0].ToString();
+            }
+            Painting_Rect();
+        }
+
+        /// <summary>
+        ///  CropStartPoints_xのテキスト処理が変更された際のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CropStartPoints_x_TextChanged(object sender, EventArgs e)
+        {
+            if (drug == true) return;
+            int o;
+            if (int.TryParse(CropStartPoints_x.Text, out o))
+            {
+                b_x[0] = Math.Max(Math.Min(o, pictureBox2.Width), 0);
+                CropStartPoints_x.Text = b_x[0].ToString();
+            }
+            else
+            {
+                CropStartPoints_x.Text = b_x[0].ToString();
+            }
+            Painting_Rect();
+        }
+        /// <summary>
+        /// CropStartPoints_yのテキスト処理が変更された際のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CropStartPoints_y_TextChanged(object sender, EventArgs e)
+        {
+            if (drug == true) return;
+            int o;
+            if (int.TryParse(CropStartPoints_y.Text, out o))
+            {
+                b_y[0] = Math.Max(Math.Min(o, pictureBox2.Height), 0);
+                CropStartPoints_y.Text = b_y[0].ToString();
+            }
+            else
+            {
+                CropStartPoints_y.Text = b_y[0].ToString();
+            }
+            Painting_Rect();
+        }
+
+        /// <summary>
+        /// CropEndPoints_yのテキスト処理が変更された際のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CropEndPoints_y_TextChanged(object sender, EventArgs e)
+        {
+            if (drug == true) return;
+            int o;
+            if (int.TryParse(CropEndPoints_y.Text, out o))
+            {
+                b_y[1] = Math.Max(Math.Min(o, pictureBox2.Height), 0);
+                CropEndPoints_y.Text = b_y[1].ToString();
+            }
+            else
+            {
+                CropEndPoints_y.Text = b_y[1].ToString();
+            }
+            Painting_Rect();
         }
     }
 }

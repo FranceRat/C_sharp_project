@@ -102,7 +102,6 @@
             this.pictureBox2.Size = new System.Drawing.Size(570, 450);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
-            //this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
             // 
             // comboBox1
             // 
@@ -179,6 +178,7 @@
             this.CropStartPoints_y.Name = "CropStartPoints_y";
             this.CropStartPoints_y.Size = new System.Drawing.Size(63, 19);
             this.CropStartPoints_y.TabIndex = 5;
+            this.CropStartPoints_y.TextChanged += new System.EventHandler(this.CropStartPoints_y_TextChanged);
             // 
             // CropStartPoints_x
             // 
@@ -187,6 +187,7 @@
             this.CropStartPoints_x.Name = "CropStartPoints_x";
             this.CropStartPoints_x.Size = new System.Drawing.Size(63, 19);
             this.CropStartPoints_x.TabIndex = 6;
+            this.CropStartPoints_x.TextChanged += new System.EventHandler(this.CropStartPoints_x_TextChanged);
             // 
             // CropEndPomints_x
             // 
@@ -195,6 +196,7 @@
             this.CropEndPomints_x.Name = "CropEndPomints_x";
             this.CropEndPomints_x.Size = new System.Drawing.Size(63, 19);
             this.CropEndPomints_x.TabIndex = 8;
+            this.CropEndPomints_x.TextChanged += new System.EventHandler(this.CropEndPomints_x_TextChanged);
             // 
             // CropEndPoints_y
             // 
@@ -203,6 +205,7 @@
             this.CropEndPoints_y.Name = "CropEndPoints_y";
             this.CropEndPoints_y.Size = new System.Drawing.Size(63, 19);
             this.CropEndPoints_y.TabIndex = 7;
+            this.CropEndPoints_y.TextChanged += new System.EventHandler(this.CropEndPoints_y_TextChanged);
             // 
             // CropResize_w
             // 
@@ -217,8 +220,8 @@
             // 
             this.CropResize_h.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CropResize_h.Location = new System.Drawing.Point(755, 288);
-            this.CropResize_h.ReadOnly = true;
             this.CropResize_h.Name = "CropResize_h";
+            this.CropResize_h.ReadOnly = true;
             this.CropResize_h.Size = new System.Drawing.Size(63, 19);
             this.CropResize_h.TabIndex = 9;
             // 
@@ -315,7 +318,21 @@
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(874, 477);
-
+            //this.Controls.Add(this.CropResize_h_label);
+            //this.Controls.Add(this.CropResize_w_label);
+            //this.Controls.Add(this.CropEndPoints_y_label);
+            //this.Controls.Add(this.CropEndPoints_x_label);
+            //this.Controls.Add(this.CropStartPoints_y_label);
+            //this.Controls.Add(this.CropStartPoints_x_label);
+            //this.Controls.Add(this.Crop_resize_label);
+            //this.Controls.Add(this.Cropend_label);
+            //this.Controls.Add(this.Cropstart_label);
+            //this.Controls.Add(this.CropResize_w);
+            //this.Controls.Add(this.CropResize_h);
+            //this.Controls.Add(this.CropEndPomints_x);
+            //this.Controls.Add(this.CropEndPoints_y);
+            //this.Controls.Add(this.CropStartPoints_x);
+            //this.Controls.Add(this.CropStartPoints_y);
             this.Controls.Add(this.excutetion_button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
