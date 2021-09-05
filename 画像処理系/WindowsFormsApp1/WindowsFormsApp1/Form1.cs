@@ -233,6 +233,21 @@ namespace WindowsFormsApp1
         }
 
         /// <summary>
+        /// Formのサイズを固定する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // MaximumSizeとMinimumSizeを同じにすることでサイズ固定にする
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
+            // 最大化・最小化の無効
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+        }
+
+        /// <summary>
         /// pictureBox内でマウスがクリックされた際の処理
         /// クリックした後はdrugがTrueになる
         /// </summary>
@@ -249,20 +264,6 @@ namespace WindowsFormsApp1
             b_y[1] = e.Y;
             drug = true;
             Painting_Rect();
-        }
-        /// <summary>
-        /// Formのサイズを固定する
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            // MaximumSizeとMinimumSizeを同じにすることでサイズ固定にする
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
-            // 最大化・最小化の無効
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
         }
 
         /// <summary>

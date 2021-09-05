@@ -55,8 +55,24 @@
             this.CropEndPoints_x_label = new System.Windows.Forms.Label();
             this.CropResize_h_label = new System.Windows.Forms.Label();
             this.CropResize_w_label = new System.Windows.Forms.Label();
+            this.filter_pos_x = new System.Windows.Forms.TextBox();
+            this.filter_pos_y = new System.Windows.Forms.TextBox();
+            this.filter_scale_w = new System.Windows.Forms.TextBox();
+            this.filter_scale_h = new System.Windows.Forms.TextBox();
+            this.filter_proc_list = new System.Windows.Forms.ComboBox();
+            this.filetr_proc_strength = new System.Windows.Forms.TrackBar();
+            this.filter_proc_label = new System.Windows.Forms.Label();
+            this.filter_position_label = new System.Windows.Forms.Label();
+            this.filter_position_x_label = new System.Windows.Forms.Label();
+            this.filter_position_y_label = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.filter_size_label = new System.Windows.Forms.Label();
+            this.filter_size_width_label = new System.Windows.Forms.Label();
+            this.filter_size_h_label = new System.Windows.Forms.Label();
+            this.filter_strength_label = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filetr_proc_strength)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -315,24 +331,148 @@
             this.CropResize_w_label.TabIndex = 18;
             this.CropResize_w_label.Text = "w";
             // 
+            // filter_pos_x
+            // 
+            this.filter_pos_x.Location = new System.Drawing.Point(631, 193);
+            this.filter_pos_x.Name = "filter_pos_x";
+            this.filter_pos_x.Size = new System.Drawing.Size(70, 19);
+            this.filter_pos_x.TabIndex = 5;
+            // 
+            // filter_pos_y
+            // 
+            this.filter_pos_y.Location = new System.Drawing.Point(748, 193);
+            this.filter_pos_y.Name = "filter_pos_y";
+            this.filter_pos_y.Size = new System.Drawing.Size(70, 19);
+            this.filter_pos_y.TabIndex = 6;
+            // 
+            // filter_scale_w
+            // 
+            this.filter_scale_w.Location = new System.Drawing.Point(631, 283);
+            this.filter_scale_w.Name = "filter_scale_w";
+            this.filter_scale_w.Size = new System.Drawing.Size(70, 19);
+            this.filter_scale_w.TabIndex = 7;
+            // 
+            // filter_scale_h
+            // 
+            this.filter_scale_h.Location = new System.Drawing.Point(748, 283);
+            this.filter_scale_h.Name = "filter_scale_h";
+            this.filter_scale_h.Size = new System.Drawing.Size(70, 19);
+            this.filter_scale_h.TabIndex = 8;
+            // 
+            // filter_proc_list
+            // 
+            this.filter_proc_list.FormattingEnabled = true;
+            this.filter_proc_list.Location = new System.Drawing.Point(665, 116);
+            this.filter_proc_list.Name = "filter_proc_list";
+            this.filter_proc_list.Size = new System.Drawing.Size(153, 20);
+            this.filter_proc_list.TabIndex = 9;
+            // 
+            // filetr_proc_strength
+            // 
+            this.filetr_proc_strength.Location = new System.Drawing.Point(593, 353);
+            this.filetr_proc_strength.Maximum = 100;
+            this.filetr_proc_strength.Name = "filetr_proc_strength";
+            this.filetr_proc_strength.Size = new System.Drawing.Size(225, 45);
+            this.filetr_proc_strength.TabIndex = 10;
+            // 
+            // filter_proc_label
+            // 
+            this.filter_proc_label.AutoSize = true;
+            this.filter_proc_label.Location = new System.Drawing.Point(591, 119);
+            this.filter_proc_label.Name = "filter_proc_label";
+            this.filter_proc_label.Size = new System.Drawing.Size(68, 12);
+            this.filter_proc_label.TabIndex = 11;
+            this.filter_proc_label.Text = "フィルタ処理：";
+            // 
+            // filter_position_label
+            // 
+            this.filter_position_label.AutoSize = true;
+            this.filter_position_label.Location = new System.Drawing.Point(591, 176);
+            this.filter_position_label.Name = "filter_position_label";
+            this.filter_position_label.Size = new System.Drawing.Size(62, 12);
+            this.filter_position_label.TabIndex = 12;
+            this.filter_position_label.Text = "フィルタ位置";
+            // 
+            // filter_position_x_label
+            // 
+            this.filter_position_x_label.AutoSize = true;
+            this.filter_position_x_label.Location = new System.Drawing.Point(602, 196);
+            this.filter_position_x_label.Name = "filter_position_x_label";
+            this.filter_position_x_label.Size = new System.Drawing.Size(21, 12);
+            this.filter_position_x_label.TabIndex = 13;
+            this.filter_position_x_label.Text = "x : ";
+            // 
+            // filter_position_y_label
+            // 
+            this.filter_position_y_label.AutoSize = true;
+            this.filter_position_y_label.Location = new System.Drawing.Point(721, 196);
+            this.filter_position_y_label.Name = "filter_position_y_label";
+            this.filter_position_y_label.Size = new System.Drawing.Size(21, 12);
+            this.filter_position_y_label.TabIndex = 14;
+            this.filter_position_y_label.Text = "y : ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(591, 268);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 12);
+            this.label2.TabIndex = 15;
+            // 
+            // filter_size_label
+            // 
+            this.filter_size_label.AutoSize = true;
+            this.filter_size_label.Location = new System.Drawing.Point(591, 268);
+            this.filter_size_label.Name = "filter_size_label";
+            this.filter_size_label.Size = new System.Drawing.Size(67, 12);
+            this.filter_size_label.TabIndex = 16;
+            this.filter_size_label.Text = "フィルタサイズ";
+            // 
+            // filter_size_width_label
+            // 
+            this.filter_size_width_label.AutoSize = true;
+            this.filter_size_width_label.Location = new System.Drawing.Point(602, 286);
+            this.filter_size_width_label.Name = "filter_size_width_label";
+            this.filter_size_width_label.Size = new System.Drawing.Size(23, 12);
+            this.filter_size_width_label.TabIndex = 17;
+            this.filter_size_width_label.Text = "w : ";
+            // 
+            // filter_size_h_label
+            // 
+            this.filter_size_h_label.AutoSize = true;
+            this.filter_size_h_label.Location = new System.Drawing.Point(719, 286);
+            this.filter_size_h_label.Name = "filter_size_h_label";
+            this.filter_size_h_label.Size = new System.Drawing.Size(21, 12);
+            this.filter_size_h_label.TabIndex = 18;
+            this.filter_size_h_label.Text = "h : ";
+            // 
+            // filter_strength_label
+            // 
+            this.filter_strength_label.AutoSize = true;
+            this.filter_strength_label.Location = new System.Drawing.Point(591, 338);
+            this.filter_strength_label.Name = "filter_strength_label";
+            this.filter_strength_label.Size = new System.Drawing.Size(25, 12);
+            this.filter_strength_label.TabIndex = 19;
+            this.filter_strength_label.Text = "強さ";
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(874, 477);
-            //this.Controls.Add(this.CropResize_h_label);
-            //this.Controls.Add(this.CropResize_w_label);
-            //this.Controls.Add(this.CropEndPoints_y_label);
-            //this.Controls.Add(this.CropEndPoints_x_label);
-            //this.Controls.Add(this.CropStartPoints_y_label);
-            //this.Controls.Add(this.CropStartPoints_x_label);
-            //this.Controls.Add(this.Crop_resize_label);
-            //this.Controls.Add(this.Cropend_label);
-            //this.Controls.Add(this.Cropstart_label);
-            //this.Controls.Add(this.CropResize_w);
-            //this.Controls.Add(this.CropResize_h);
-            //this.Controls.Add(this.CropEndPomints_x);
-            //this.Controls.Add(this.CropEndPoints_y);
-            //this.Controls.Add(this.CropStartPoints_x);
-            //this.Controls.Add(this.CropStartPoints_y);
+            this.Controls.Add(this.filter_strength_label);
+            this.Controls.Add(this.filter_size_h_label);
+            this.Controls.Add(this.filter_size_width_label);
+            this.Controls.Add(this.filter_size_label);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.filter_position_y_label);
+            this.Controls.Add(this.filter_position_x_label);
+            this.Controls.Add(this.filter_position_label);
+            this.Controls.Add(this.filter_proc_label);
+            this.Controls.Add(this.filetr_proc_strength);
+            this.Controls.Add(this.filter_proc_list);
+            this.Controls.Add(this.filter_scale_h);
+            this.Controls.Add(this.filter_scale_w);
+            this.Controls.Add(this.filter_pos_y);
+            this.Controls.Add(this.filter_pos_x);
             this.Controls.Add(this.excutetion_button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
@@ -343,6 +483,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filetr_proc_strength)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,6 +522,21 @@
         private System.Windows.Forms.Label CropEndPoints_x_label;
         private System.Windows.Forms.Label CropResize_h_label;
         private System.Windows.Forms.Label CropResize_w_label;
+        private System.Windows.Forms.TextBox filter_pos_x;
+        private System.Windows.Forms.TextBox filter_pos_y;
+        private System.Windows.Forms.TextBox filter_scale_w;
+        private System.Windows.Forms.TextBox filter_scale_h;
+        private System.Windows.Forms.ComboBox filter_proc_list;
+        private System.Windows.Forms.TrackBar filetr_proc_strength;
+        private System.Windows.Forms.Label filter_proc_label;
+        private System.Windows.Forms.Label filter_position_label;
+        private System.Windows.Forms.Label filter_position_x_label;
+        private System.Windows.Forms.Label filter_position_y_label;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label filter_size_label;
+        private System.Windows.Forms.Label filter_size_width_label;
+        private System.Windows.Forms.Label filter_size_h_label;
+        private System.Windows.Forms.Label filter_strength_label;
     }
 }
 
