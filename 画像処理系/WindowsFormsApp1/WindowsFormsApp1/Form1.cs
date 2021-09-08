@@ -79,6 +79,8 @@ namespace WindowsFormsApp1
             pictureBox2.Image = image;
 
         }
+
+
         /// <summary>
         /// コンボボックスのpullパネルが開かれた際の挙動
         /// 現在選択されている者に対応するコントロールを削除する(非表示にする)
@@ -87,6 +89,7 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void comboBox1_DropOpen(object sender, EventArgs e)
         {
+            Painting_Rect(initialize:true);
             string selected = (string)comboBox1.SelectedItem;
             if (selected == null || !rem_add_Controls.ContainsKey(selected)) return;
             foreach (Control T in rem_add_Controls[selected])
@@ -120,6 +123,8 @@ namespace WindowsFormsApp1
             //Console.WriteLine("ASDFGHJKL+");
             switch (selected){
                 case "Crop":
+                    int[] b_x = { 0, 0 };
+                    int[] b_y = { 0, 0 };
                     this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
                     this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
                     this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
@@ -309,9 +314,14 @@ namespace WindowsFormsApp1
         /// <summary>
         /// 四角形を描く処理
         /// </summary>
-        private void Painting_Rect()
+        private void Painting_Rect(bool initialize=false)
         {
             if (disp_img == null) return;
+            if (initialize)
+            {
+                pictureBox2.Image = BitmapConverter.ToBitmap(disp_img);
+                return;
+            }
             Rect Crop_rect = new Rect(b_x.Min(),b_y.Min(),(b_x.Max()-b_x.Min()), (b_y.Max() - b_y.Min()));
             Mat Rect_img = disp_img.Clone();
             Cv2.Rectangle(Rect_img, Crop_rect, Scalar.Red);
