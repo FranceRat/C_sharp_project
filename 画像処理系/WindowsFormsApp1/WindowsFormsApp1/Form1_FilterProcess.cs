@@ -22,6 +22,19 @@ namespace WindowsFormsApp1
     /// </summary>
     public partial class Form1
     {
+        Dictionary<string, Func<Mat, Mat>> Filter_Func;
+        private void FilterProcessInit()
+        {
+            Filter_Func =new Dictionary<string, Func<Mat, Mat>>() {
+                { "Lapracian",x=>Laplacian(x) },
+                {"Blur",x=>Blur(x) },
+                {"GaussianBlur",x=>GaussianBlur(x)},
+                {"MedianBlur",x=>MedianBlur(x) },
+                { "BilateralBlur",x=>BilateralBlur(x)},
+                {"Mozaic",x=>Mozaic(x) }
+            };
+
+        }
 
         /// <summary>
         /// Filter用の
@@ -40,7 +53,7 @@ namespace WindowsFormsApp1
             b_x[1] = e.X;
             b_y[1] = e.Y;
             drug = true;
-            Painting_Rect();
+            Painting_Filter();
         }
 
 
@@ -80,7 +93,7 @@ namespace WindowsFormsApp1
                 b_y[1] = Math.Max(Math.Min(e.Y, pictureBox2.Height), 0);
                 filter_scale_h.Text =(b_y.Max() - b_y.Min()).ToString();
                 filter_scale_w.Text =(b_x.Max() - b_x.Min()).ToString();
-                Painting_Rect();
+                Painting_Filter();
             }
         }
 
@@ -90,7 +103,7 @@ namespace WindowsFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FilterStartPoints_x_TextChanged(object sender, EventArgs e)
+        private void filter_pos_x_TextChanged(object sender, EventArgs e)
         {
             if (drug == true) return;
             int o;
@@ -103,7 +116,7 @@ namespace WindowsFormsApp1
             {
                 filter_pos_x.Text = b_x[0].ToString();
             }
-            Painting_Rect();
+            Painting_Filter();
         }
 
 
@@ -125,7 +138,7 @@ namespace WindowsFormsApp1
             {
                 filter_pos_y.Text = b_y[0].ToString();
             }
-            Painting_Rect();
+            Painting_Filter();
         }
 
         /// <summary>
@@ -140,13 +153,13 @@ namespace WindowsFormsApp1
             if (int.TryParse(filter_scale_w.Text, out o))
             {
                 b_x[1] = Math.Max(Math.Min(b_x[0]+o, pictureBox2.Width), 0);
-                filter_scale_w.Text =Math.Abs(b_x[0]-b_x[2]).ToString();
+                filter_scale_w.Text =Math.Abs(b_x[0]-b_x[1]).ToString();
             }
             else
             {
-                filter_scale_w.Text = Math.Abs(b_x[1] - b_x[2]).ToString();
+                filter_scale_w.Text = Math.Abs(b_x[0] - b_x[1]).ToString();
             }
-            Painting_Rect();
+            Painting_Filter();
         }
 
         /// <summary>
@@ -161,13 +174,13 @@ namespace WindowsFormsApp1
             if (int.TryParse(filter_scale_h.Text, out o))
             {
                 b_y[1] = Math.Max(Math.Min(b_y[0]+o, pictureBox2.Height), 0);
-                CropEndPoints_y.Text = Math.Abs(b_x[0] - b_x[2]).ToString();
+                CropEndPoints_y.Text = Math.Abs(b_x[0] - b_x[1]).ToString();
             }
             else
             {
-                CropEndPoints_y.Text = Math.Abs(b_x[0] - b_x[2]).ToString();
+                CropEndPoints_y.Text = Math.Abs(b_x[0] - b_x[1]).ToString();
             }
-            Painting_Rect();
+            Painting_Filter();
         }
 
         /// <summary>
@@ -198,7 +211,7 @@ namespace WindowsFormsApp1
             }
             else
             {
-                rect = new Rect(x, y, w, h);
+                rect = new Rect(b_x.Min(), b_y.Min(), (b_x.Max() - b_x.Min()), (b_y.Max() - b_y.Min()));
                 dst = new Mat(disp_img, rect);
             }
             return dst;
@@ -212,7 +225,7 @@ namespace WindowsFormsApp1
         /// <param name="dst">貼り付ける画像</param>
         /// <param name="rect">貼り付け領域</param>
         /// <returns></returns>
-        private Mat Marge_img(Mat Org,Mat dst,Rect rect)
+        private Mat Merge_img(Mat Org,Mat dst,Rect rect)
         {
             Org[rect] = dst;
             return Org;
@@ -245,7 +258,8 @@ namespace WindowsFormsApp1
         private Mat Blur(Mat img)
         {
             Mat dst = img.Clone();
-            OpenCvSharp.Size ksize =new OpenCvSharp.Size((int)(((float)filetr_proc_strength.Value/100)*((float)img.Width/2)), (int)(((float)filetr_proc_strength.Value / 100) * ((float)img.Height/2)));
+            OpenCvSharp.Size ksize =new OpenCvSharp.Size((int)(filetr_proc_strength.Value/3)+1, (filetr_proc_strength.Value/3)+1);
+            Console.WriteLine(ksize);
             Cv2.Blur(img, dst, ksize);
             return dst;
         }
@@ -262,8 +276,10 @@ namespace WindowsFormsApp1
         private Mat GaussianBlur(Mat img)
         {
             Mat dst = img.Clone();
-            OpenCvSharp.Size ksize = new OpenCvSharp.Size((int)(((float)filetr_proc_strength.Value / 100) * ((float)img.Width / 2)), (int)(((float)filetr_proc_strength.Value / 100) * ((float)img.Height / 2)));
-            Cv2.GaussianBlur(img, dst, ksize,0);
+            int ksize = (int)(filetr_proc_strength.Value / 3) + 1;
+            ksize = ksize % 2 == 1 ? ksize : ksize + 1;
+            OpenCvSharp.Size kSize = new OpenCvSharp.Size(ksize, ksize);
+            Cv2.GaussianBlur(img, dst, kSize,0);
             return dst;
         }
 
@@ -279,7 +295,7 @@ namespace WindowsFormsApp1
         private Mat MedianBlur(Mat img)
         {
             Mat dst = img.Clone();
-            int ksize =(int)(((float)filetr_proc_strength.Value / 100) * ((float)img.Width / 2));
+            int ksize =(filetr_proc_strength.Value / 3)+1;
             ksize = ksize % 2 == 0 ? ksize + 1 : ksize;
             Cv2.MedianBlur(img, dst,ksize);
             return dst;
@@ -294,7 +310,7 @@ namespace WindowsFormsApp1
         private Mat BilateralBlur(Mat img)
         {
             Mat dst = img.Clone();
-            int d = filetr_proc_strength.Value;
+            int d = filetr_proc_strength.Value/3;
             const double sigmaColor = 75.0;
             const double sigmaSpace = 75.0;
             Cv2.BilateralFilter(img, dst,d,sigmaColor,sigmaSpace);
@@ -309,11 +325,51 @@ namespace WindowsFormsApp1
         private Mat Mozaic(Mat img)
         {
             Mat dst = img.Clone();
-            OpenCvSharp.Size resizedSize = new OpenCvSharp.Size((int)(img.Width*(1-(double)filetr_proc_strength.Value/100)), (int)(img.Height * (1 - (double)filetr_proc_strength.Value / 100)));
-            Cv2.Resize(img,dst,resizedSize,interpolation:InterpolationFlags.Cubic);
+            OpenCvSharp.Size resizedSize = new OpenCvSharp.Size((img.Width/filetr_proc_strength.Value)+1, (img.Height/ filetr_proc_strength.Value) + 1);
+            Cv2.Resize(dst,dst,resizedSize);
+            Cv2.Resize(dst, dst,img.Size());
             return dst;
         }
+        
+        /// <summary>
+        /// 四角形を描く処理
+        /// </summary>
+        private void Painting_Filter(bool initialize = false,bool original=false)
+        {
+            if (disp_img == null) return;
 
+            if (initialize)
+            {
+                pictureBox2.Image = BitmapConverter.ToBitmap(disp_img);
+                return;
+            }
+            Rect Crop_rect;
+            Mat Croped_img;
+            Mat org_img;
+
+            Croped_img = Crop_image(out Crop_rect, original: original);
+            if ((string)filter_proc_list.SelectedItem == null||Croped_img.Empty()) { return; }
+            Croped_img = Filter_Func[(string)filter_proc_list.SelectedItem](Croped_img);
+
+            if (original)
+            {
+                cv_img = Merge_img(cv_img, Croped_img, Crop_rect);
+
+            }
+            else
+            {
+                org_img =  disp_img.Clone();
+                Mat mat = Merge_img(org_img, Croped_img, Crop_rect);
+                Mat c = mat.Clone();
+                Cv2.Rectangle(c, Crop_rect, Scalar.Red);
+                pictureBox2.Image = BitmapConverter.ToBitmap(c);
+            }
+        }
+
+        private void filetr_proc_strength_Scroll(object sender, EventArgs e)
+        {
+            Painting_Filter();
+        }
 
     }
 }

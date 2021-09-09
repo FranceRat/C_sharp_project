@@ -32,8 +32,15 @@ namespace WindowsFormsApp1
             InitializeComponent();
             //paintingupdatetimer.Interval = 1000 / 60;
             ///
-            rem_add_Controls = new Dictionary<string, List<Control>>() {
-                {"Resize",new List<Control>(){resize_width_label,resize_height_label,resize_height,resize_width}},{"Crop",new List<Control>(){
+            rem_add_Controls = new Dictionary<string, List<Control>>()
+            {
+                {"Resize",new List<Control>(){
+                    resize_width_label,
+                    resize_height_label,
+                    resize_height,
+                    resize_width }},
+
+                { "Crop",new List<Control>(){
                         CropResize_h_label,
                         CropResize_w_label,
                         CropEndPoints_y_label,
@@ -48,8 +55,26 @@ namespace WindowsFormsApp1
                         CropEndPomints_x,
                         CropEndPoints_y,
                         CropStartPoints_x,
-                        CropStartPoints_y
-                    }} };
+                        CropStartPoints_y}},
+
+                {"Filter",new List<Control>(){
+                    filter_proc_label,
+                    filter_proc_list,
+                    filter_position_label,
+                    filter_position_x_label,
+                    filter_position_y_label,
+                    filter_pos_x,
+                    filter_pos_y,
+                    filter_size_label,
+                    filter_size_h_label,
+                    filter_size_width_label,
+                    filter_scale_w,
+                    filter_scale_h,
+                    filter_strength_label,
+                    filetr_proc_strength
+                } }
+            };
+            FilterProcessInit();
         }
         /// <summary>
         /// 画像ファイルを開く際に使用する
@@ -103,6 +128,11 @@ namespace WindowsFormsApp1
                     this.pictureBox2.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
                     this.pictureBox2.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
                     break;
+                case "Filter":
+                    this.pictureBox2.MouseDown -= new System.Windows.Forms.MouseEventHandler(this.Filters_DrawBox_start);
+                    this.pictureBox2.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.Filters_DrawBoxEnd);
+                    this.pictureBox2.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Filters_MouseMove);
+                    break;
             }
         }
 
@@ -123,12 +153,20 @@ namespace WindowsFormsApp1
             //Console.WriteLine("ASDFGHJKL+");
             switch (selected){
                 case "Crop":
-                    int[] b_x = { 0, 0 };
-                    int[] b_y = { 0, 0 };
+                    b_x = new int[] { 0, 0 };
+                    b_y = new int[] { 0, 0 };
                     this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_start);
                     this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawBoxEnd);
                     this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
                     //this.paintingupdatetimer.Tick += new EventHandler(this.Timer_event);
+                    break;
+                case "Filter":
+                    b_x = new int[] { 0, 0 };
+                    b_y = new int[] { 0, 0 };
+                    this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Filters_DrawBox_start);
+                    this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Filters_DrawBoxEnd);
+                    this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Filters_MouseMove);
+
                     break;
             }
         }
@@ -410,6 +448,7 @@ namespace WindowsFormsApp1
             }
             Painting_Rect();
         }
+
     }
 }
 ///TODO

@@ -34,7 +34,7 @@
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ExcuteProcLabel = new System.Windows.Forms.Label();
             this.excutetion_button = new System.Windows.Forms.Button();
             this.resize_height = new System.Windows.Forms.TextBox();
             this.resize_width = new System.Windows.Forms.TextBox();
@@ -126,7 +126,8 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Resize",
-            "Crop"});
+            "Crop",
+            "Filter"});
             this.comboBox1.Location = new System.Drawing.Point(604, 69);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(214, 20);
@@ -134,15 +135,15 @@
             this.comboBox1.DropDown += new System.EventHandler(this.comboBox1_DropOpen);
             this.comboBox1.DropDownClosed += new System.EventHandler(this.comboBox1_Dropclosed);
             // 
-            // label1
+            // ExcuteProcLabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(602, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "実行する処理";
+            this.ExcuteProcLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExcuteProcLabel.AutoSize = true;
+            this.ExcuteProcLabel.Location = new System.Drawing.Point(602, 45);
+            this.ExcuteProcLabel.Name = "ExcuteProcLabel";
+            this.ExcuteProcLabel.Size = new System.Drawing.Size(72, 12);
+            this.ExcuteProcLabel.TabIndex = 3;
+            this.ExcuteProcLabel.Text = "実行する処理";
             // 
             // excutetion_button
             // 
@@ -337,6 +338,7 @@
             this.filter_pos_x.Name = "filter_pos_x";
             this.filter_pos_x.Size = new System.Drawing.Size(70, 19);
             this.filter_pos_x.TabIndex = 5;
+            this.filter_pos_x.TextChanged += new System.EventHandler(this.filter_pos_x_TextChanged);
             // 
             // filter_pos_y
             // 
@@ -344,6 +346,7 @@
             this.filter_pos_y.Name = "filter_pos_y";
             this.filter_pos_y.Size = new System.Drawing.Size(70, 19);
             this.filter_pos_y.TabIndex = 6;
+            this.filter_pos_y.TextChanged += new System.EventHandler(this.FilterStartPoints_y_TextChanged);
             // 
             // filter_scale_w
             // 
@@ -351,6 +354,7 @@
             this.filter_scale_w.Name = "filter_scale_w";
             this.filter_scale_w.Size = new System.Drawing.Size(70, 19);
             this.filter_scale_w.TabIndex = 7;
+            this.filter_scale_w.TextChanged += new System.EventHandler(this.FilterSize_w_TextChanged);
             // 
             // filter_scale_h
             // 
@@ -358,10 +362,18 @@
             this.filter_scale_h.Name = "filter_scale_h";
             this.filter_scale_h.Size = new System.Drawing.Size(70, 19);
             this.filter_scale_h.TabIndex = 8;
+            this.filter_scale_h.TextChanged += new System.EventHandler(this.FilterSize_h_TextChanged);
             // 
             // filter_proc_list
             // 
             this.filter_proc_list.FormattingEnabled = true;
+            this.filter_proc_list.Items.AddRange(new object[] {
+            "Lapracian",
+            "Blur",
+            "GaussianBlur",
+            "MedianBlur",
+            "BilateralBlur",
+            "Mozaic"});
             this.filter_proc_list.Location = new System.Drawing.Point(665, 116);
             this.filter_proc_list.Name = "filter_proc_list";
             this.filter_proc_list.Size = new System.Drawing.Size(153, 20);
@@ -371,9 +383,12 @@
             // 
             this.filetr_proc_strength.Location = new System.Drawing.Point(593, 353);
             this.filetr_proc_strength.Maximum = 100;
+            this.filetr_proc_strength.Minimum = 1;
             this.filetr_proc_strength.Name = "filetr_proc_strength";
             this.filetr_proc_strength.Size = new System.Drawing.Size(225, 45);
             this.filetr_proc_strength.TabIndex = 10;
+            this.filetr_proc_strength.Value = 1;
+            this.filetr_proc_strength.Scroll += new System.EventHandler(this.filetr_proc_strength_Scroll);
             // 
             // filter_proc_label
             // 
@@ -458,23 +473,9 @@
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(874, 477);
-            this.Controls.Add(this.filter_strength_label);
-            this.Controls.Add(this.filter_size_h_label);
-            this.Controls.Add(this.filter_size_width_label);
-            this.Controls.Add(this.filter_size_label);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.filter_position_y_label);
-            this.Controls.Add(this.filter_position_x_label);
-            this.Controls.Add(this.filter_position_label);
-            this.Controls.Add(this.filter_proc_label);
-            this.Controls.Add(this.filetr_proc_strength);
-            this.Controls.Add(this.filter_proc_list);
-            this.Controls.Add(this.filter_scale_h);
-            this.Controls.Add(this.filter_scale_w);
-            this.Controls.Add(this.filter_pos_y);
-            this.Controls.Add(this.filter_pos_x);
+            ///this.Controls.Add(this.filetr_proc_strength);
             this.Controls.Add(this.excutetion_button);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.ExcuteProcLabel);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.menuStrip1);
@@ -501,7 +502,7 @@
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label ExcuteProcLabel;
         private System.Windows.Forms.Button excutetion_button;
         private System.Windows.Forms.TextBox resize_height;
         private System.Windows.Forms.TextBox resize_width;
@@ -537,6 +538,7 @@
         private System.Windows.Forms.Label filter_size_width_label;
         private System.Windows.Forms.Label filter_size_h_label;
         private System.Windows.Forms.Label filter_strength_label;
+
     }
 }
 
